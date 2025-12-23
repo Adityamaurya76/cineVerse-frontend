@@ -1,0 +1,162 @@
+.home {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--bg-dark);
+  color: var(--white);
+
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  // Main
+  &__main {
+    flex: 1;
+  }
+
+  // Hero Section
+  &__hero {
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+    width: 100%;
+  }
+
+  &__hero-backdrop {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  &__hero-gradient-top {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      var(--bg-dark) 0%,
+      rgba(25, 16, 34, 0.7) 30%,
+      transparent 100%
+    );
+  }
+
+  &__hero-gradient-left {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      var(--bg-dark) 0%,
+      rgba(25, 16, 34, 0.5) 40%,
+      transparent 100%
+    );
+  }
+
+  &__hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    max-width: 48rem;
+    padding: 3rem 1rem;
+    gap: 1.5rem;
+
+    @media (min-width: 640px) {
+      padding: 3rem 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 3rem 2rem;
+    }
+
+    @media (min-width: 1280px) {
+      padding: 3rem 4rem;
+    }
+  }
+
+  &__hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.033em;
+    color: var(--white);
+
+    @media (min-width: 640px) {
+      font-size: 3.75rem;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 4.5rem;
+    }
+  }
+
+  &__hero-description {
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--white-80);
+
+    @media (min-width: 640px) {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  // Content Sections
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__section-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    padding: 1.25rem 1rem 0.75rem;
+
+    @media (min-width: 640px) {
+      padding: 1.25rem 1.5rem 0.75rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 1.25rem 2rem 0.75rem;
+    }
+
+    @media (min-width: 1280px) {
+      padding: 1.25rem 4rem 0.75rem;
+    }
+  }
+
+  &__content-padding {
+    padding: 0 1rem;
+
+    @media (min-width: 640px) {
+      padding: 0 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 0 2rem;
+    }
+
+    @media (min-width: 1280px) {
+      padding: 0 4rem;
+    }
+  }
+}

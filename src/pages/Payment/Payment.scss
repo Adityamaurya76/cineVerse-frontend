@@ -1,0 +1,458 @@
+.payment {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0d0c0f;
+  color: #eaeaeb;
+
+  // Header
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    background: rgba(26, 25, 28, 0.5);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #2e2d30;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: #eaeaeb;
+  }
+
+  &__logo-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary);
+  }
+
+  &__logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  // Main
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+
+    @media (min-width: 640px) {
+      padding: 3rem 2rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 4rem 2rem;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 56rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+  }
+
+  // Checkout Form
+  &__checkout {
+    flex: 1;
+    background: #1a191c;
+    border: 1px solid #2e2d30;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  &__checkout-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid #2e2d30;
+  }
+
+  &__checkout-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    color: #eaeaeb;
+    letter-spacing: -0.033em;
+  }
+
+  &__checkout-subtitle {
+    font-size: 1rem;
+    color: #9a999c;
+  }
+
+  &__section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #eaeaeb;
+    padding: 1.5rem 1.5rem 0.5rem;
+    letter-spacing: -0.015em;
+  }
+
+  // Payment Methods
+  &__methods {
+    padding: 0.5rem 1.5rem;
+  }
+
+  &__methods-toggle {
+    display: flex;
+    height: 3rem;
+    background: #0d0c0f;
+    border: 1px solid #2e2d30;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  }
+
+  &__method {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #9a999c;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    &--active {
+      background: #1a191c;
+      color: #eaeaeb;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .material-symbols-outlined {
+      font-size: 1.25rem;
+    }
+  }
+
+  &__paypal-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  // Form
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  &__field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #9a999c;
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__input {
+    width: 100%;
+    height: 2.75rem;
+    padding: 0 0.75rem;
+    background: #0d0c0f;
+    border: 1px solid #2e2d30;
+    border-radius: 0.375rem;
+    color: #eaeaeb;
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: rgba(154, 153, 156, 0.5);
+    }
+
+    &:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.3);
+    }
+
+    &--with-icon {
+      padding-left: 2.5rem;
+    }
+
+    &--with-icon-right {
+      padding-right: 2.5rem;
+    }
+  }
+
+  &__input-icon {
+    position: absolute;
+    left: 0.75rem;
+    color: #9a999c;
+    pointer-events: none;
+  }
+
+  &__input-icon-right {
+    position: absolute;
+    right: 0.75rem;
+    color: #9a999c;
+    cursor: help;
+  }
+
+  &__checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  &__checkbox {
+    width: 1rem;
+    height: 1rem;
+    background: #0d0c0f;
+    border: 1px solid #2e2d30;
+    border-radius: 0.25rem;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+
+  &__checkbox-label {
+    font-size: 0.875rem;
+    color: #9a999c;
+    cursor: pointer;
+  }
+
+  // PayPal Message
+  &__paypal-message {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: #9a999c;
+  }
+
+  // Order Summary
+  &__summary {
+    width: 100%;
+
+    @media (min-width: 1024px) {
+      width: 20rem;
+      position: sticky;
+      top: 3rem;
+    }
+  }
+
+  &__summary-card {
+    background: #1a191c;
+    border: 1px solid #2e2d30;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  &__summary-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #eaeaeb;
+    padding: 1rem;
+    border-bottom: 1px solid #2e2d30;
+  }
+
+  &__summary-details {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+
+    &--total {
+      border-top: 1px solid #2e2d30;
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+    }
+  }
+
+  &__summary-label {
+    color: #9a999c;
+  }
+
+  &__summary-value {
+    color: #eaeaeb;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  &__summary-total {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #eaeaeb;
+  }
+
+  &__summary-actions {
+    padding: 1rem;
+  }
+
+  &__confirm-btn {
+    width: 100%;
+    height: 3rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 0.5rem;
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.5),
+        0 4px 15px rgba(138, 43, 226, 0.3);
+    }
+  }
+
+  &__terms {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #9a999c;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  &__terms-link {
+    font-weight: 500;
+    color: #9a999c;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
+
+  // Security Section
+  &__security {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-top: 1px solid #2e2d30;
+  }
+
+  &__ssl {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4caf50;
+
+    .material-symbols-outlined {
+      font-size: 1rem;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__card-icon {
+    width: 2.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &--visa {
+      background-color: #1a1f71;
+    }
+
+    &--mastercard {
+      background-color: #eb001b;
+      background: linear-gradient(90deg, #eb001b 50%, #f79e1b 50%);
+    }
+
+    &--amex {
+      background-color: #006fcf;
+    }
+
+    &--paypal {
+      background-color: #003087;
+    }
+  }
+
+  // Footer
+  &__footer {
+    width: 100%;
+    max-width: 56rem;
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  &__copyright {
+    font-size: 0.75rem;
+    color: #9a999c;
+  }
+
+  &__footer-link {
+    color: #9a999c;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary);
+    }
+  }
+}

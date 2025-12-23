@@ -1,0 +1,143 @@
+.tvshows {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--bg-dark);
+  color: var(--white);
+
+  // Main
+  &__main {
+    flex: 1;
+  }
+
+  // Hero Section
+  &__hero-section {
+    padding: 1rem;
+
+    @media (min-width: 640px) {
+      padding: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      padding: 2rem 2.5rem;
+    }
+  }
+
+  &__hero {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 2rem;
+
+    @media (min-width: 768px) {
+      padding: 3rem;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        0deg,
+        rgba(25, 16, 34, 0.8) 0%,
+        rgba(25, 16, 34, 0) 50%
+      );
+    }
+  }
+
+  &__hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 36rem;
+  }
+
+  &__hero-title {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+
+    @media (min-width: 768px) {
+      font-size: 2.75rem;
+    }
+  }
+
+  &__hero-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--white-80);
+    margin-bottom: 1.5rem;
+
+    @media (min-width: 768px) {
+      font-size: 1.125rem;
+    }
+  }
+
+  &__hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  // Filters
+  &__filters {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    overflow-x: auto;
+
+    @media (min-width: 640px) {
+      padding: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      padding: 1.5rem 2.5rem;
+    }
+  }
+
+  // Sections
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0 1rem 1rem;
+
+    @media (min-width: 640px) {
+      padding: 0 1.5rem 1rem;
+    }
+
+    @media (min-width: 768px) {
+      padding: 0 2.5rem 1rem;
+    }
+  }
+
+  &__content-padding {
+    padding: 0 1rem;
+
+    @media (min-width: 640px) {
+      padding: 0 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      padding: 0 2.5rem;
+    }
+  }
+}

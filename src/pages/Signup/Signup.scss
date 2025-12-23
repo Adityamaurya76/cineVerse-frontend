@@ -1,0 +1,112 @@
+// Signup-specific styles (non-reusable)
+
+// Avatar Upload Section
+.signup__avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.signup__avatar-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+
+    .signup__avatar-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+.signup__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.signup__avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(127, 19, 236, 0.2) 0%, rgba(127, 19, 236, 0.1) 100%);
+  border: 2px dashed rgba(127, 19, 236, 0.4);
+  border-radius: 50%;
+}
+
+.signup__avatar-icon {
+  font-size: 2.5rem;
+  color: rgba(127, 19, 236, 0.6);
+}
+
+.signup__avatar-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.signup__camera-icon {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.signup__avatar-input {
+  display: none;
+}
+
+.signup__avatar-remove {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  color: #ef4444;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+  }
+}
+
+.signup__avatar-hint {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.signup__terms {
+  padding-top: 0.5rem;
+}
+
+.signup__terms .form__checkbox-wrapper {
+  align-items: flex-start;
+}
+
+.signup__terms .form__checkbox {
+  margin-top: 0.125rem;
+}
+
+.signup__submit-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  box-shadow: 0 10px 25px -5px rgba(127, 19, 236, 0.3);
+}

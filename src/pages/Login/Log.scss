@@ -1,0 +1,22 @@
+// Login-specific styles (non-reusable)
+.login__options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+}
+
+.login__submit-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  box-shadow: 0 10px 25px -5px rgba(127, 19, 236, 0.3);
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .login__options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

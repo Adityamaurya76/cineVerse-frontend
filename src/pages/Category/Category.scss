@@ -1,0 +1,201 @@
+// Variables - updated to match app theme
+$primary: #7f13ec;
+$bg-dark: #191022;
+$bg-surface: #220332;
+$white: #ffffff;
+$white-70: rgba(255, 255, 255, 0.7);
+$white-50: rgba(255, 255, 255, 0.5);
+
+.category-page {
+  min-height: 100vh;
+  width: 100%;
+  background: $bg-dark;
+  color: $white;
+
+  // Header
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: transparent;
+
+    @media (min-width: 1024px) {
+      padding: 1.25rem 3rem;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  &__logo-icon {
+    font-size: 1.75rem;
+    color: $primary;
+  }
+
+  &__logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $white;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &__nav-link {
+    color: $white-70;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  &__profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      color: $white;
+    }
+  }
+
+  &__profile-icon {
+    font-size: 1.25rem;
+  }
+
+  // Main Content
+  &__main {
+    padding: 0 2.5rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    @media (min-width: 1024px) {
+      padding: 0 3rem 4rem;
+    }
+  }
+
+  // Hero Section
+  &__hero {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $white;
+    letter-spacing: -0.02em;
+
+    @media (min-width: 768px) {
+      font-size: 3rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 3.5rem;
+    }
+  }
+
+  // Section
+  &__section {
+    margin-bottom: 2.5rem;
+  }
+
+  // Categories Grid
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  // Category Card
+  &__card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      .category-page__card-image {
+        transform: scale(1.08);
+      }
+
+      .category-page__card-overlay {
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.85) 0%,
+          rgba(0, 0, 0, 0.3) 40%,
+          transparent 100%
+        );
+      }
+    }
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.15) 40%,
+      transparent 100%
+    );
+    pointer-events: none;
+    transition: background 0.3s ease;
+  }
+
+  &__card-name {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+}
