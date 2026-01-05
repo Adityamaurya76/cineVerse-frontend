@@ -189,17 +189,211 @@
     display: flex;
     align-items: flex-start;
     gap: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   &__info-label {
     width: 6rem;
     flex-shrink: 0;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: var(--white-70);
+    color: var(--white-40);
   }
 
   &__info-value {
+    font-size: 1rem;
+    font-weight: 500;
     color: var(--white);
+    line-height: 1.4;
+  }
+
+  // Episodes
+  &__episodes {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__episodes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .details__section-title {
+      margin-bottom: 0;
+    }
+  }
+
+  &__season-selector {
+    background: var(--white-10);
+    border: 1px solid var(--white-20);
+    color: var(--white);
+    padding: 0.625rem 2.5rem 0.625rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='length 19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+
+    &:hover {
+      background-color: var(--white-20);
+    }
+  }
+
+  &__episodes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__episode-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--white-05);
+    border: 1px solid var(--white-10);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    &:hover {
+      background: var(--white-10);
+      border-color: var(--white-20);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__episode-thumbnail-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+
+    @media (min-width: 768px) {
+      width: 280px;
+    }
+  }
+
+  &__episode-thumbnail {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__episode-play-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+
+    .details__episode-card:hover & {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  &__episode-duration {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  &__episode-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__episode-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__episode-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  &__episode-watched {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--white-40);
+    padding: 0.375rem 0.75rem;
+    background: var(--white-10);
+    border-radius: var(--radius-full);
+
+    .check-icon {
+      color: var(--primary);
+      font-weight: 900;
+    }
+  }
+
+  &__episode-aired {
+    font-size: 0.875rem;
+    color: var(--white-40);
+    font-weight: 500;
+  }
+
+  &__episode-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--white-60);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // General tab states
+  &__no-episodes,
+  &__no-reviews {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--white-40);
+    font-size: 1.125rem;
+    background: var(--white-05);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--white-10);
   }
 
   // Cast & Crew

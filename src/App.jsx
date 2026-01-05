@@ -24,6 +24,8 @@ import Subscription from "./pages/Subscription/Subscription";
 import Payment from "./pages/Payment/Payment";
 import PaymentSuccess from "./pages/Payment/PaymentSuccess";
 import NotFound from "./pages/NotFound/NotFound";
+import EmailVerified from "./pages/EmailVerified/EmailVerified";
+import EmailVerificationFailed from "./pages/EmailVerificationFailed/EmailVerificationFailed";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -40,6 +42,8 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={<Welcome />} />
+        <Route path="/email-verified" element={<EmailVerified />} />
+        <Route path="/email-verification-failed" element={<EmailVerificationFailed />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />

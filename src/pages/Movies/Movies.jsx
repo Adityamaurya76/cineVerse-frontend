@@ -16,7 +16,7 @@ const Movies = () => {
   const [activeGenre, setActiveGenre] = useState("all");
 
   useEffect(() => {
-    dispatch(fetchMovies());
+    dispatch(fetchMovies("movie"));
   }, [dispatch]);
 
   const heroContent = data?.data?.hero || {};
