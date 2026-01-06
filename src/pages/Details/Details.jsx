@@ -6,7 +6,9 @@ import Footer from "../../components/Footer/Footer";
 import "./Details.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovieDetails } from "../../components/Redux/slices/MovieSlice";
+import { addVideoToMyList } from "../../components/Redux/slices/MyListSlice";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import Loader from "../../components/Loader/Loader";
 
 
@@ -16,10 +18,33 @@ const Details = () => {
   const [selectedSeason, setSelectedSeason] = useState(1);
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.movie);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchMovieDetails(id));
   }, [dispatch, id]);
+
+  const handleAddToWatchlist = () => {
+    if (!user?._id && !user?.id) {
+      alert("Please login to add to watchlist");
+      return;
+    }
+
+    const params = {
+      userId: user._id || user.id,
+      videoId: id,
+      videoType: video?.type,
+    };
+
+    dispatch(addVideoToMyList(params))
+      .unwrap()
+      .then(() => {
+        toast.success("Added to your watchlist!");
+      })
+      .catch((err) => {
+        toast.error(err || "Failed to add to watchlist");
+      });
+  };
 
   const video = data?.data?.video || {};
   const related = data?.data?.related || [];
@@ -77,7 +102,7 @@ const Details = () => {
                 <FiPlay />
                 <span>Play</span>
               </Link>
-              <button className="btn btn--lg btn--secondary">
+              <button className="btn btn--lg btn--secondary" onClick={handleAddToWatchlist}>
                 <FiPlus />
                 <span>Add to Watchlist</span>
               </button>

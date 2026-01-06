@@ -6,16 +6,41 @@ import { fetchMovies } from "../../components/Redux/slices/MovieSlice";
 import Loader from "../../components/Loader/Loader";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
+import { addVideoToMyList } from "../../components/Redux/slices/MyListSlice";
+import { toast } from "react-toastify";
 import "./TVShows.scss";
 
 const TVShows = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.movie);
   const [activeGenre, setActiveGenre] = useState("all");
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchMovies("series"));
   }, [dispatch]);
+
+  const handleAddToWatchlist = () => {
+    if (!user?._id && !user?.id) {
+      alert("Please login to add to watchlist");
+      return;
+    }
+
+    const params = {
+      userId: user._id || user.id,
+      videoId: data?.data?.hero?._id,
+      videoType: data?.data?.hero?.type,
+    };
+
+    dispatch(addVideoToMyList(params))
+      .unwrap()
+      .then(() => {
+        toast.success("Added to your list!");
+      })
+      .catch((err) => {
+        toast.error(err || "Failed to add to list");
+      });
+  };
 
   const heroContent = data?.data?.hero || {};
   const categories = data?.data?.categories || [];
@@ -43,7 +68,7 @@ const TVShows = () => {
                 <FiPlay />
                 <span>Watch Now</span>
               </button>
-              <button className="btn btn--lg btn--secondary">
+              <button className="btn btn--lg btn--secondary" onClick={handleAddToWatchlist}>
                 <FiPlus />
                 <span>Add to List</span>
               </button>

@@ -5,6 +5,7 @@ import { FaGoogle, FaApple } from "react-icons/fa";
 import "./Log.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../components/Redux/slices/AuthSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -73,6 +74,7 @@ const Login = () => {
       ).unwrap();
 
       if (result) {
+        toast.success("Login successful!");
         const userSelectedPlan = result.user?.selectedPlan || result.data?.user?.subscription?.plan || selectedPlan;
         const userIsSubscribed = result.user?.isSubscribed || result.data?.user?.isSubscribed || isSubscribed;
         const userIsOnboarded = result.user?.isOnboarded || result.data?.user?.isOnboarded || isOnboarded;
@@ -90,6 +92,7 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Login error:", err);
+      toast.error(err || "Login failed");
     }
   };
 

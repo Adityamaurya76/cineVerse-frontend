@@ -4,6 +4,7 @@ import subscriptionReducer from "./slices/SubscriptionPlanSlice";
 import homeList from "./slices/HomeSlice";
 import movieList from "./slices/MovieSlice";
 import browseList from "./slices/browseSlice";
+import myListReducer from "./slices/MyListSlice";
 
 const Store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const Store = configureStore({
     subscription: subscriptionReducer,
     home: homeList,
     movie: movieList,
-    browse: browseList
+    browse: browseList,
+    mylist: myListReducer
   },
 });
 

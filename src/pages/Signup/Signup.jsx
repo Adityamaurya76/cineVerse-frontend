@@ -5,6 +5,7 @@ import { FaGoogle, FaApple, FaUser } from "react-icons/fa";
 import "./Signup.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../components/Redux/slices/AuthSlice";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -42,7 +43,7 @@ const Signup = () => {
       }
     }
   }, [isAuthenticated, isOnboarded, isSubscribed, selectedPlan, navigate]);
- 
+
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -83,11 +84,11 @@ const Signup = () => {
     e.preventDefault();
 
     if (!agreeTerms) {
-      alert("Please agree to the Terms and Privacy Policy");
+      toast.error("Please agree to the Terms and Privacy Policy");
       return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -105,10 +106,11 @@ const Signup = () => {
       }
 
       await dispatch(registerUser(submitData)).unwrap();
+      toast.success("Registration successful!");
       navigate("/onboarding");
     } catch (error) {
       console.error("Signup error:", error);
-      alert(error || "Registration failed. Please try again.");
+      toast.error(error || "Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -124,7 +126,7 @@ const Signup = () => {
       <div className="auth-layout__container">
         <Link to="/" className="auth-layout__logo">
           <svg className="auth-layout__logo-icon" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <path clipRule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fillRule="evenodd"/>
+            <path clipRule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fillRule="evenodd" />
           </svg>
           <span className="auth-layout__logo-text">Cineverse</span>
         </Link>
@@ -144,7 +146,7 @@ const Signup = () => {
                 <div className="signup__avatar-overlay">
                   <FiCamera className="signup__camera-icon" />
                 </div>
-                <input type="file" ref={fileInputRef} onChange={handleAvatarChange} accept="image/*" className="signup__avatar-input"/>
+                <input type="file" ref={fileInputRef} onChange={handleAvatarChange} accept="image/*" className="signup__avatar-input" />
               </div>
               {avatarPreview && (
                 <button type="button" className="signup__avatar-remove" onClick={removeAvatar}>Remove</button>
@@ -179,25 +181,25 @@ const Signup = () => {
             </div>
             <div className="form__field">
               <label className="form__label">Email</label>
-              <input type="email" name="email" className="form__input form__input--lg" placeholder="Enter your email address" value={email} onChange={handleChange} required/>
+              <input type="email" name="email" className="form__input form__input--lg" placeholder="Enter your email address" value={email} onChange={handleChange} required />
             </div>
             <div className="form__field">
               <label className="form__label">Create Password</label>
               <div className="form__input-group">
-                <input type={showPassword ? "text" : "password"} name="password" className="form__input form__input--lg form__input--with-icon-right" placeholder="Enter your password" value={password} onChange={handleChange} required/>
+                <input type={showPassword ? "text" : "password"} name="password" className="form__input form__input--lg form__input--with-icon-right" placeholder="Enter your password" value={password} onChange={handleChange} required />
                 <button type="button" className="form__input-icon form__input-icon--right" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FiEye /> : <FiEyeOff />}</button>
               </div>
             </div>
             <div className="form__field">
               <label className="form__label">Confirm Password</label>
               <div className="form__input-group">
-                <input type={showConfirmPassword ? "text" : "password"} name="confirmPassword" className="form__input form__input--lg form__input--with-icon-right" placeholder="Confirm your password" value={confirmPassword} onChange={handleChange} required/>
+                <input type={showConfirmPassword ? "text" : "password"} name="confirmPassword" className="form__input form__input--lg form__input--with-icon-right" placeholder="Confirm your password" value={confirmPassword} onChange={handleChange} required />
                 <button type="button" className="form__input-icon form__input-icon--right" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword ? <FiEye /> : <FiEyeOff />}</button>
               </div>
             </div>
             <div className="signup__terms">
               <label className="form__checkbox-wrapper">
-                <input type="checkbox" className="form__checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)}/>
+                <input type="checkbox" className="form__checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} />
                 <span className="form__checkbox-label">I agree to the{" "}
                   <Link to="/terms" className="auth-layout__link">Terms</Link>{" "}and{" "}
                   <Link to="/privacy" className="auth-layout__link">Privacy Policy</Link>

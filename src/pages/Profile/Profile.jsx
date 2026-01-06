@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { userDetails, userLogout } from "../../components/Redux/slices/AuthSlice";
+import { userDetails, userLogout, userUpdate } from "../../components/Redux/slices/AuthSlice";
 import { FiMenu, FiX } from "react-icons/fi";
+import { toast } from "react-toastify";
 import "./Profile.scss";
 
 const navItems = [
@@ -20,7 +21,6 @@ const Profile = () => {
   const { user, loading } = authState;
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [showToast, setShowToast] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -57,18 +57,39 @@ const Profile = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
-      alert("New passwords do not match!");
+      toast.error("New passwords do not match!");
       return;
     }
 
-    // TODO: dispatch update profile action here
-    console.log("Saving profile:", formData);
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    try {
+      const updateData = {
+        fullName: formData.name,
+        email: formData.email,
+      };
+
+      if (formData.newPassword) {
+        updateData.password = formData.newPassword;
+        updateData.currentPassword = formData.currentPassword;
+      }
+
+      await dispatch(userUpdate({ id: user?._id || user?.id, formData: updateData })).unwrap();
+      toast.success("Profile updated successfully!");
+
+      // Clear password fields after update
+      setFormData(prev => ({
+        ...prev,
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+      }));
+    } catch (err) {
+      console.error("Update error:", err);
+      toast.error(err || "Failed to update profile");
+    }
   };
 
   const handleDeleteAccount = () => {
@@ -78,9 +99,11 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await dispatch(userLogout()).unwrap();
+      toast.success("Logged out successfully");
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
+      toast.error("Logout failed");
     }
   };
 

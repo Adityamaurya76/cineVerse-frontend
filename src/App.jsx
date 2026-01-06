@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userDetails } from "./components/Redux/slices/AuthSlice";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Onboarding from "./components/Onboarding/Onboarding";
@@ -80,6 +82,7 @@ function App() {
         <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer position="bottom-right" theme="dark" autoClose={3000} />
     </div>
   );
 }
