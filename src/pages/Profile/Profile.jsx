@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { userDetails } from "../../components/Redux/slices/AuthSlice";
+import { userDetails, userLogout } from "../../components/Redux/slices/AuthSlice";
+import { FiMenu, FiX } from "react-icons/fi";
 import "./Profile.scss";
 
 const navItems = [
@@ -18,6 +19,7 @@ const Profile = () => {
   const authState = useSelector((state) => state?.auth ?? {});
   const { user, loading } = authState;
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -73,19 +75,28 @@ const Profile = () => {
     console.log("Delete account requested");
   };
 
+  const handleLogout = async () => {
+    try {
+      await dispatch(userLogout()).unwrap();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   const subscriptionInfo = {
     plan: user?.subscription?.plan?.name || user?.subscriptionPlan || "N/A",
     amount: user?.subscription?.plan?.price
       ? `$${user.subscription.plan.price.toFixed(2)} / month`
       : user?.subscriptionAmount
-      ? `$${user.subscriptionAmount} / month`
-      : "N/A",
+        ? `$${user.subscriptionAmount} / month`
+        : "N/A",
     validTill: user?.subscription?.endDate
       ? new Date(user.subscription.endDate).toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        })
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
       : user?.subscriptionValidTill || "N/A",
   };
 
@@ -101,16 +112,34 @@ const Profile = () => {
 
   return (
     <div className="profile">
-      <aside className="profile__sidebar">
+      {/* Mobile Header */}
+      <header className="profile__mobile-header">
+        <button className="profile__menu-toggle" onClick={() => setIsSidebarOpen(true)}>
+          <FiMenu />
+        </button>
+        <h1 className="profile__mobile-logo">Cineverse</h1>
+      </header>
+
+      {/* Overlay */}
+      {isSidebarOpen && (
+        <div className="profile__overlay" onClick={() => setIsSidebarOpen(false)}></div>
+      )}
+
+      <aside className={`profile__sidebar ${isSidebarOpen ? "profile__sidebar--open" : ""}`}>
         <div className="profile__sidebar-content">
           <div className="profile__sidebar-top">
             <div className="profile__logo">
-              <h1 className="profile__logo-title">Cineverse</h1>
+              <div className="profile__logo-header">
+                <h1 className="profile__logo-title">Cineverse</h1>
+                <button className="profile__close-btn" onClick={() => setIsSidebarOpen(false)}>
+                  <FiX />
+                </button>
+              </div>
               <p className="profile__logo-badge">Premium</p>
             </div>
             <nav className="profile__nav">
               {navItems.map((item) => (
-                <Link key={item.id} to={item.path} className={`profile__nav-item ${location.pathname === item.path ? "profile__nav-item--active": ""}`}>
+                <Link key={item.id} to={item.path} className={`profile__nav-item ${location.pathname === item.path ? "profile__nav-item--active" : ""}`} onClick={() => setIsSidebarOpen(false)}>
                   <span className="material-symbols-outlined profile__nav-icon">{item.icon}</span>
                   <span className="profile__nav-label">{item.label}</span>
                 </Link>
@@ -118,10 +147,10 @@ const Profile = () => {
             </nav>
           </div>
           <div className="profile__sidebar-bottom">
-            <Link to="/login" className="profile__nav-item">
+            <button onClick={handleLogout} className="profile__nav-item profile__nav-item--logout">
               <span className="material-symbols-outlined profile__nav-icon">logout</span>
               <span className="profile__nav-label">Log Out</span>
-            </Link>
+            </button>
           </div>
         </div>
       </aside>
@@ -137,20 +166,20 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="profile__header-right">
+            {/* <div className="profile__header-right">
               <button className="profile__edit-btn">Edit Profile</button>
-            </div>
+            </div> */}
           </header>
           <section className="profile__section">
             <h3 className="profile__section-title">Personal Information</h3>
             <div className="profile__form-row">
               <label className="profile__field">
                 <span className="profile__label">Name</span>
-                <input type="text" name="name" className="profile__input" value={formData.name} onChange={handleInputChange}/>
+                <input type="text" name="name" className="profile__input" value={formData.name} onChange={handleInputChange} />
               </label>
               <label className="profile__field">
                 <span className="profile__label">Email</span>
-                <input type="email" name="email" className="profile__input" value={formData.email} onChange={handleInputChange}/>
+                <input type="email" name="email" className="profile__input" value={formData.email} onChange={handleInputChange} />
               </label>
             </div>
           </section>
@@ -176,15 +205,15 @@ const Profile = () => {
             <div className="profile__form-grid">
               <label className="profile__field">
                 <span className="profile__label">Current Password</span>
-                <input type="password" name="currentPassword" className="profile__input" placeholder="Enter your current password" value={formData.currentPassword} onChange={handleInputChange}/>
+                <input type="password" name="currentPassword" className="profile__input" placeholder="Enter your current password" value={formData.currentPassword} onChange={handleInputChange} />
               </label>
               <label className="profile__field">
                 <span className="profile__label">New Password</span>
-                <input type="password" name="newPassword" className="profile__input" placeholder="Enter new password" value={formData.newPassword} onChange={handleInputChange}/>
+                <input type="password" name="newPassword" className="profile__input" placeholder="Enter new password" value={formData.newPassword} onChange={handleInputChange} />
               </label>
               <label className="profile__field">
                 <span className="profile__label">Confirm New Password</span>
-                <input type="password" name="confirmPassword" className="profile__input" placeholder="Confirm new password" value={formData.confirmPassword} onChange={handleInputChange}/>
+                <input type="password" name="confirmPassword" className="profile__input" placeholder="Confirm new password" value={formData.confirmPassword} onChange={handleInputChange} />
               </label>
             </div>
           </section>

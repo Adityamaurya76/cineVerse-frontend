@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { userDetails } from "./components/Redux/slices/AuthSlice";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Onboarding from "./components/Onboarding/Onboarding";
@@ -29,6 +31,18 @@ import EmailVerificationFailed from "./pages/EmailVerificationFailed/EmailVerifi
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    // Sync user state on app load if authenticated
+    const token = localStorage.getItem("token");
+    const userId = user?._id || user?.id || (localStorage.getItem("authUser") ? JSON.parse(localStorage.getItem("authUser"))._id : null);
+
+    if (token && userId) {
+      dispatch(userDetails(userId));
+    }
+  }, [dispatch, isAuthenticated, user?._id, user?.id]);
 
   const handleSplashComplete = () => {
     setShowSplash(false);

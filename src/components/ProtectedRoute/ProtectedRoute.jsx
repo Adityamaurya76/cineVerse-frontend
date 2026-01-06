@@ -16,21 +16,26 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/onboarding" replace />;
   }
 
+  // 2.1 Safeguard: If onboarded but visiting onboarding page, redirect to home
+  if (isOnboarded && location.pathname.startsWith("/onboarding")) {
+    return <Navigate to="/home" replace />;
+  }
+
   // 3. If onboarded but no plan selected, redirect to subscription page
   // (except if already on subscription page or onboarding pages)
-  if (isOnboarded && !selectedPlan && !isSubscribed && 
-      location.pathname !== "/subscription" && 
-      !location.pathname.startsWith("/onboarding")) {
+  if (isOnboarded && !selectedPlan && !isSubscribed &&
+    location.pathname !== "/subscription" &&
+    !location.pathname.startsWith("/onboarding")) {
     return <Navigate to="/subscription" replace />;
   }
 
   // 4. If plan selected but not paid, redirect to payment
   // (except if already on payment, payment-success, subscription, or onboarding pages)
-  if (isOnboarded && selectedPlan && !isSubscribed && 
-      location.pathname !== "/payment" && 
-      location.pathname !== "/payment-success" &&
-      location.pathname !== "/subscription" &&
-      !location.pathname.startsWith("/onboarding")) {
+  if (isOnboarded && selectedPlan && !isSubscribed &&
+    location.pathname !== "/payment" &&
+    location.pathname !== "/payment-success" &&
+    location.pathname !== "/subscription" &&
+    !location.pathname.startsWith("/onboarding")) {
     return <Navigate to="/payment" replace />;
   }
 

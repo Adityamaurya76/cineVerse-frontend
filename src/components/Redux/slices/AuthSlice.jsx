@@ -198,6 +198,9 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         localStorage.removeItem("authUser");
         localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("selectedPlan");
+        localStorage.removeItem("isSubscribed");
+        localStorage.removeItem("isOnboarded");
         localStorage.removeItem("token");
       })
       .addCase(userLogout.rejected, (state, action) => {
@@ -207,6 +210,9 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         localStorage.removeItem("authUser");
         localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("selectedPlan");
+        localStorage.removeItem("isSubscribed");
+        localStorage.removeItem("isOnboarded");
         localStorage.removeItem("token");
       })
       .addCase(userDetails.pending, (state) => {

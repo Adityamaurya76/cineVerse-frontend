@@ -36,12 +36,12 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-     setFormData((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    if(errors[name]) {
+    if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
@@ -73,9 +73,9 @@ const Login = () => {
       ).unwrap();
 
       if (result) {
-        const userSelectedPlan = result.user?.selectedPlan || selectedPlan;
-        const userIsSubscribed = result.user?.isSubscribed || isSubscribed;
-        const userIsOnboarded = result.user?.isOnboarded || isOnboarded;
+        const userSelectedPlan = result.user?.selectedPlan || result.data?.user?.subscription?.plan || selectedPlan;
+        const userIsSubscribed = result.user?.isSubscribed || result.data?.user?.isSubscribed || isSubscribed;
+        const userIsOnboarded = result.user?.isOnboarded || result.data?.user?.isOnboarded || isOnboarded;
 
         // Navigate based on user status: onboarding → subscription → payment → home
         if (!userIsOnboarded) {
@@ -106,7 +106,7 @@ const Login = () => {
       <div className="auth-layout__container">
         <Link to="/" className="auth-layout__logo">
           <svg className="auth-layout__logo-icon" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-            <path clipRule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fillRule="evenodd"/>
+            <path clipRule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fillRule="evenodd" />
           </svg>
           <span className="auth-layout__logo-text">Cineverse</span>
         </Link>
@@ -117,18 +117,18 @@ const Login = () => {
           <form className="form" onSubmit={handleSubmit}>
             <div className="form__field">
               <label className="form__label">Email</label>
-              <input type="email" name="email" className="form__input form__input--lg" placeholder="Enter your email address" value={formData.email} onChange={handleChange} required/>
+              <input type="email" name="email" className="form__input form__input--lg" placeholder="Enter your email address" value={formData.email} onChange={handleChange} required />
             </div>
             <div className="form__field">
               <label className="form__label">Password</label>
               <div className="form__input-group">
-                <input type={showPassword ? "text" : "password"} name="password" className="form__input form__input--lg form__input--with-icon-right" placeholder="Enter your password" value={formData.password} onChange={handleChange} required/>
+                <input type={showPassword ? "text" : "password"} name="password" className="form__input form__input--lg form__input--with-icon-right" placeholder="Enter your password" value={formData.password} onChange={handleChange} required />
                 <button type="button" className="form__input-icon form__input-icon--right" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FiEye /> : <FiEyeOff />}</button>
               </div>
             </div>
             <div className="login__options">
               <label className="form__checkbox-wrapper">
-                <input type="checkbox" className="form__checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}/>
+                <input type="checkbox" className="form__checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
                 <span className="form__checkbox-label">Remember me</span>
               </label>
               <Link to="/forgot-password" className="auth-layout__link">Forgot Password?</Link>
