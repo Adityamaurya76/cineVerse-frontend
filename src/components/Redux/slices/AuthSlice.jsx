@@ -5,32 +5,32 @@ export const loginUser = createAsyncThunk("auth/loginUser",
   async (formData, { rejectWithValue }) => {
     try {
       const { data } = await api.post("/auth/user/login", formData);
-      
+
       return data;
     } catch (error) {
-        return rejectWithValue(error.response.data?.message || "Login failed");
+      return rejectWithValue(error.response.data?.message || "Login failed");
     }
   }
 );
 
 export const registerUser = createAsyncThunk("auth/registerUser",
   async (formData, { rejectWithValue }) => {
-      try {
-        const { data } = await api.post("/auth/register", formData, {
-          headers: {
-              "Content-Type": "multipart/form-data",
-          },
-        });
-        
-        return data;
-      } catch (error) {
-          return rejectWithValue(error.response?.data?.message || "Registration failed");
-      }
+    try {
+      const { data } = await api.post("/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Registration failed");
+    }
   }
 );
 
-export const userLogout = createAsyncThunk("auth/userLogout", 
-  async(_, {rejectWithValue}) => {
+export const userLogout = createAsyncThunk("auth/userLogout",
+  async (_, { rejectWithValue }) => {
     try {
       const { data } = await api.post("/auth/logout");
 
@@ -42,8 +42,8 @@ export const userLogout = createAsyncThunk("auth/userLogout",
 );
 
 export const userDetails = createAsyncThunk("auth/userDetails",
-  async(id, {rejectWithValue}) => {
-    try{
+  async (id, { rejectWithValue }) => {
+    try {
       const { data } = await api.get(`user/details/${id}`)
 
       return data;
@@ -53,9 +53,9 @@ export const userDetails = createAsyncThunk("auth/userDetails",
   }
 );
 
-export const userUpdate = createAsyncThunk("auth/userUpdate", 
-  async({id, formData}, {rejectWithValue}) => {
-    try{
+export const userUpdate = createAsyncThunk("auth/userUpdate",
+  async ({ id, formData }, { rejectWithValue }) => {
+    try {
       const { data } = await api.put(`user/update/${id}`, formData)
       return data;
     } catch (error) {
@@ -66,95 +66,121 @@ export const userUpdate = createAsyncThunk("auth/userUpdate",
 
 const authSlice = createSlice({
   name: "auth",
-    initialState: {
-        user: localStorage.getItem("authUser") ? JSON.parse(localStorage.getItem("authUser")) : null,
-        isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
-        selectedPlan: localStorage.getItem("selectedPlan") ? JSON.parse(localStorage.getItem("selectedPlan")) : null,
-        isSubscribed: localStorage.getItem("isSubscribed") === "true",
-        isOnboarded: localStorage.getItem("isOnboarded") === "true",
-        loading: false,
-        error: null, 
+  initialState: {
+    user: localStorage.getItem("authUser") ? JSON.parse(localStorage.getItem("authUser")) : null,
+    isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
+    selectedPlan: localStorage.getItem("selectedPlan") ? JSON.parse(localStorage.getItem("selectedPlan")) : null,
+    isSubscribed: localStorage.getItem("isSubscribed") === "true",
+    isOnboarded: localStorage.getItem("isOnboarded") === "true",
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    logout: (state) => {
+      localStorage.removeItem("authUser");
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("selectedPlan");
+      localStorage.removeItem("isSubscribed");
+      localStorage.removeItem("isOnboarded");
+      localStorage.removeItem("token");
+      state.user = null;
+      state.isAuthenticated = false;
+      state.selectedPlan = null;
+      state.isSubscribed = false;
+      state.isOnboarded = false;
     },
-    reducers: {
-        logout: (state) => {
-            localStorage.removeItem("authUser");
-            localStorage.removeItem("isAuthenticated");
-            localStorage.removeItem("selectedPlan");
-            localStorage.removeItem("isSubscribed");
-            localStorage.removeItem("isOnboarded");
-            localStorage.removeItem("token");
-            state.user = null;
-            state.isAuthenticated = false;
-            state.selectedPlan = null;
-            state.isSubscribed = false;
-            state.isOnboarded = false;
-        },
-        setSelectedPlan: (state, action) => {
-            state.selectedPlan = action.payload;
-            localStorage.setItem("selectedPlan", JSON.stringify(action.payload));
-            if (action.payload?.id) {
-                localStorage.setItem("planId", action.payload.id);
-            }
-        },
-        setSubscribed: (state, action) => {
-            state.isSubscribed = action.payload;
-            localStorage.setItem("isSubscribed", action.payload.toString());
-        },
-        setOnboarded: (state, action) => {
-            state.isOnboarded = action.payload;
-            localStorage.setItem("isOnboarded", action.payload.toString());
-        },
+    setSelectedPlan: (state, action) => {
+      state.selectedPlan = action.payload;
+      localStorage.setItem("selectedPlan", JSON.stringify(action.payload));
+      if (action.payload?.id) {
+        localStorage.setItem("planId", action.payload.id);
+      }
     },
-    extraReducers: (builder) => {
-        builder
-        .addCase(registerUser.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
-        .addCase(registerUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.error = null;
-            const userData = action.payload?.user || action.payload?.data?.user || action.payload;
-            const accessToken = action.payload?.data?.accessToken || action.payload?.accessToken || action.payload?.token;
-    
-            state.user = userData;
-            state.isAuthenticated = true;
-            
-            localStorage.setItem("isAuthenticated", "true");
-            
-            if (userData && typeof userData === 'object') {
-                localStorage.setItem("authUser", JSON.stringify(userData));
-            }
-            
-            if (accessToken) {
-                localStorage.setItem("token", accessToken);
-            }
-        })
-        .addCase(registerUser.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-            state.isAuthenticated = false;
-        })
-        .addCase(loginUser.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
+    setSubscribed: (state, action) => {
+      state.isSubscribed = action.payload;
+      localStorage.setItem("isSubscribed", action.payload.toString());
+    },
+    setOnboarded: (state, action) => {
+      state.isOnboarded = action.payload;
+      localStorage.setItem("isOnboarded", action.payload.toString());
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        const userData = action.payload?.user || action.payload?.data?.user || action.payload;
+        const accessToken = action.payload?.data?.accessToken || action.payload?.accessToken || action.payload?.token;
+
+        state.user = userData;
+        state.isAuthenticated = true;
+
+        localStorage.setItem("isAuthenticated", "true");
+
+        if (userData && typeof userData === 'object') {
+          localStorage.setItem("authUser", JSON.stringify(userData));
+        }
+
+        if (accessToken) {
+          localStorage.setItem("token", accessToken);
+        }
+
+        // Update flags from userData
+        if (userData) {
+          state.isOnboarded = !!userData.isOnboarded;
+          state.isSubscribed = !!userData.isSubscribed;
+          state.selectedPlan = userData.subscription?.plan || null;
+
+          localStorage.setItem("isOnboarded", state.isOnboarded.toString());
+          localStorage.setItem("isSubscribed", state.isSubscribed.toString());
+          if (state.selectedPlan) {
+            localStorage.setItem("selectedPlan", JSON.stringify(state.selectedPlan));
+          }
+        }
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isAuthenticated = false;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         const userData = action.payload?.user || action.payload?.data?.user || action.payload;
         const accessToken = action.payload?.data?.accessToken || action.payload?.accessToken || action.payload?.token;
         state.user = userData;
         state.isAuthenticated = true;
-        
+
         // Always set isAuthenticated when login succeeds
         localStorage.setItem("isAuthenticated", "true");
-        
+
         if (userData && typeof userData === 'object') {
           localStorage.setItem("authUser", JSON.stringify(userData));
         }
-        
+
         if (accessToken) {
           localStorage.setItem("token", accessToken);
+        }
+
+        // Update flags from userData
+        if (userData) {
+          state.isOnboarded = !!userData.isOnboarded;
+          state.isSubscribed = !!userData.isSubscribed;
+          state.selectedPlan = userData.subscription?.plan || null;
+
+          localStorage.setItem("isOnboarded", state.isOnboarded.toString());
+          localStorage.setItem("isSubscribed", state.isSubscribed.toString());
+          if (state.selectedPlan) {
+            localStorage.setItem("selectedPlan", JSON.stringify(state.selectedPlan));
+          }
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -196,6 +222,17 @@ const authSlice = createSlice({
           payload;
         if (state.user && typeof state.user === "object") {
           localStorage.setItem("authUser", JSON.stringify(state.user));
+
+          // Update flags from user object
+          state.isOnboarded = !!state.user.isOnboarded;
+          state.isSubscribed = !!state.user.isSubscribed;
+          state.selectedPlan = state.user.subscription?.plan || null;
+
+          localStorage.setItem("isOnboarded", state.isOnboarded.toString());
+          localStorage.setItem("isSubscribed", state.isSubscribed.toString());
+          if (state.selectedPlan) {
+            localStorage.setItem("selectedPlan", JSON.stringify(state.selectedPlan));
+          }
         }
       })
       .addCase(userDetails.rejected, (state, action) => {
@@ -212,13 +249,24 @@ const authSlice = createSlice({
         state.user = updatedUser;
         if (updatedUser) {
           localStorage.setItem("authUser", JSON.stringify(updatedUser));
+
+          // Update flags from updatedUser
+          state.isOnboarded = !!updatedUser.isOnboarded;
+          state.isSubscribed = !!updatedUser.isSubscribed;
+          state.selectedPlan = updatedUser.subscription?.plan || null;
+
+          localStorage.setItem("isOnboarded", state.isOnboarded.toString());
+          localStorage.setItem("isSubscribed", state.isSubscribed.toString());
+          if (state.selectedPlan) {
+            localStorage.setItem("selectedPlan", JSON.stringify(state.selectedPlan));
+          }
         }
       })
       .addCase(userUpdate.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
-    },
+  },
 });
 
 export const { logout, setSelectedPlan, setSubscribed, setOnboarded } = authSlice.actions;

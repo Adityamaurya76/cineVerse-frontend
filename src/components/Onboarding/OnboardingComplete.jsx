@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setOnboarded } from "../Redux/slices/AuthSlice";
+import { setOnboarded, userUpdate } from "../Redux/slices/AuthSlice";
 import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
 import { HiSparkles } from "react-icons/hi2";
 import "./OnboardingComplete.scss";
@@ -81,14 +81,29 @@ const OnboardingComplete = () => {
     }));
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     localStorage.setItem("selectedGenres", JSON.stringify(selectedGenres));
     localStorage.setItem("movieRatings", JSON.stringify(ratings));
+
+    // Save to backend
+    const authUser = JSON.parse(localStorage.getItem("authUser"));
+    if (authUser?._id || authUser?.user?._id) {
+      const userId = authUser._id || authUser.user._id;
+      await dispatch(userUpdate({ id: userId, formData: { isOnboarded: true } }));
+    }
+
     dispatch(setOnboarded(true));
     navigate("/subscription", { replace: true });
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
+    // Save to backend
+    const authUser = JSON.parse(localStorage.getItem("authUser"));
+    if (authUser?._id || authUser?.user?._id) {
+      const userId = authUser._id || authUser.user._id;
+      await dispatch(userUpdate({ id: userId, formData: { isOnboarded: true } }));
+    }
+
     dispatch(setOnboarded(true));
     navigate("/subscription", { replace: true });
   };
@@ -120,25 +135,23 @@ const OnboardingComplete = () => {
           <div className="onboarding-complete__movies-grid">
             {moviePosters.map((movie) => (
               <div key={movie.id} className="onboarding-complete__movie-card">
-                <img src={movie.poster} alt={movie.title} className="onboarding-complete__movie-poster"/>
+                <img src={movie.poster} alt={movie.title} className="onboarding-complete__movie-poster" />
                 <div className="onboarding-complete__movie-overlay"></div>
                 <div className="onboarding-complete__movie-actions">
                   <button
-                    className={`onboarding-complete__rate-btn onboarding-complete__rate-btn--down ${
-                      ratings[movie.id] === "down"
-                        ? "onboarding-complete__rate-btn--active-down"
-                        : ""
-                    }`}
+                    className={`onboarding-complete__rate-btn onboarding-complete__rate-btn--down ${ratings[movie.id] === "down"
+                      ? "onboarding-complete__rate-btn--active-down"
+                      : ""
+                      }`}
                     onClick={() => rateMovie(movie.id, "down")}
                   >
                     <FiThumbsDown />
                   </button>
                   <button
-                    className={`onboarding-complete__rate-btn onboarding-complete__rate-btn--up ${
-                      ratings[movie.id] === "up"
-                        ? "onboarding-complete__rate-btn--active-up"
-                        : ""
-                    }`}
+                    className={`onboarding-complete__rate-btn onboarding-complete__rate-btn--up ${ratings[movie.id] === "up"
+                      ? "onboarding-complete__rate-btn--active-up"
+                      : ""
+                      }`}
                     onClick={() => rateMovie(movie.id, "up")}
                   >
                     <FiThumbsUp />
